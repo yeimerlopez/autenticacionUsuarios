@@ -10,7 +10,7 @@ class User():
         self.fullname = fullname
 
     @classmethod
-    def check_password(self, hashed_password,password):
-        return check_password_hash(hashed_password,password)
+    def check_password(self, hashed_password, password):
+        return check_password_hash(hashed_password, password)
     
     
