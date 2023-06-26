@@ -1,6 +1,6 @@
 from flask import Flask, render_template,request, redirect, url_for, flash
 from flask_mysqldb import MySQL
-
+from werkzeug.security import generate_password_hash
 from config import config
 
 #models
@@ -45,14 +45,20 @@ def login():
 def home():
     return render_template('home.html')
 
+@app.route('/registro', methods=['GET', 'POST'])
+def reregister():
+    return render_template('register.html')
+    
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     print("estoy aca")
     if request.method == 'POST':
         
-
-        user = User(0, request.form['username'], request.form['password'],request.form['fullname'])
+        password =  request.form['password']
+        hashed_password = generate_password_hash(password)
+        user = User(0, request.form['username'], hashed_password,request.form['fullname'])
         register_user = ModelUser.create_user(db, user)
         if register_user != None:
             
