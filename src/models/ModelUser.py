@@ -16,4 +16,21 @@ class ModelUser():
             else:
                 return None
         except Exception as ex:
-            raise Exception(ex)   
+            raise Exception(ex)  
+
+
+    @classmethod
+    def create_user(self, db, user):
+        try:
+            cursor = db.connection.cursor()
+            sql = """INSERT INTO user (username, password, fullname) 
+                    VALUES ('{}', '{}', '{}')""".format(user.username, user.password, user.fullname)
+            cursor.execute(sql)
+            db.connection.commit()
+            
+            user_id = cursor.lastrowid
+            new_user = User(user_id, user.username, user.password, user.fullname )
+            return new_user
+        except Exception as ex:
+            raise Exception(ex)
+
